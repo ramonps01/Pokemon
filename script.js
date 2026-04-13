@@ -73,10 +73,14 @@ function mostrarPokemon(data) {
   const tipoPrincipal = data.types[0].type.name;
   const cor = cores[tipoPrincipal] || "#999";
 
+  // 🖼️ imagem com fallback
+  const imagem = data.sprites.other["official-artwork"].front_default 
+    || data.sprites.front_default;
+
   pokemonAtual = data.name;
 
   pokemonInfo.innerHTML = `
-    <img src="${data.sprites.front_default}">
+    <img src="${imagem}" alt="${data.name}">
     <h2>${capitalizar(data.name)} (#${data.id})</h2>
     <p>Tipos: ${tipos}</p>
   `;
@@ -90,10 +94,18 @@ function mostrarPokemon(data) {
 // ❌ ERRO
 function mostrarErro() {
   loading.style.display = "none";
-  pokemonInfo.innerHTML = "<p>Pokémon não encontrado!</p>";
+  pokemonInfo.innerHTML = `
+    <p>❌ Pokémon não encontrado</p>
+    <small>Verifique o nome ou ID</small>
+  `;
   pokemonInfo.style.display = "block";
   pokemonInfo.style.background = "#999";
 }
+
+pokemonInfo.innerHTML = `
+  <p>❌ Pokémon não encontrado</p>
+  <small>Verifique o nome ou ID</small>
+`;
 
 // ⏳ LOADING
 function mostrarLoading() {
